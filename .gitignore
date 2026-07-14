@@ -1,0 +1,17 @@
+# Datos descargados y resultados generados
+data/raw/
+data/cache/
+outputs/*
+!outputs/.gitkeep
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# Credenciales
+*.token
+credentials.json
