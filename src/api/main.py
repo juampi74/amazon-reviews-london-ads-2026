@@ -22,7 +22,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-import inference as I
+from . import inference as I
 
 app = FastAPI(
     title="Product Success Predictor API",
