@@ -1,0 +1,112 @@
+{
+  "protocol": "OOF stratified 5-fold, threshold=0.5, same dataset Master_Beauty_Dataset",
+  "rf": {
+    "model": "RandomForest",
+    "source": "ANALYSIS_RESULTS.md (run 2026-07, OOF 5-fold)",
+    "hparams": {
+      "n_estimators": 300,
+      "min_samples_leaf": 5,
+      "class_weight": "balanced"
+    },
+    "confusion": {
+      "TN": 31105,
+      "FP": 3218,
+      "FN": 8503,
+      "TP": 3609
+    }
+  },
+  "catboost": {
+    "model": "CatBoost",
+    "source": "output/metrics/analysis_results.json",
+    "confusion": {
+      "TN": 22295,
+      "FP": 12028,
+      "FN": 4578,
+      "TP": 7534
+    }
+  },
+  "rows": [
+    {
+      "metric": "accuracy",
+      "rf": 0.748,
+      "catboost": 0.6423818240551308,
+      "delta_cb_minus_rf": -0.10561817594486922,
+      "winner": "RF"
+    },
+    {
+      "metric": "precision",
+      "rf": 0.529,
+      "catboost": 0.38513444433084554,
+      "delta_cb_minus_rf": -0.1438655556691545,
+      "winner": "RF"
+    },
+    {
+      "metric": "recall",
+      "rf": 0.298,
+      "catboost": 0.6220277410832232,
+      "delta_cb_minus_rf": 0.32402774108322324,
+      "winner": "CatBoost"
+    },
+    {
+      "metric": "f1",
+      "rf": 0.381,
+      "catboost": 0.4757214118835638,
+      "delta_cb_minus_rf": 0.09472141188356381,
+      "winner": "CatBoost"
+    },
+    {
+      "metric": "roc_auc",
+      "rf": 0.715,
+      "catboost": 0.6915106497020246,
+      "delta_cb_minus_rf": -0.023489350297975387,
+      "winner": "RF"
+    },
+    {
+      "metric": "pr_auc",
+      "rf": 0.472,
+      "catboost": 0.43223632291541725,
+      "delta_cb_minus_rf": -0.03976367708458273,
+      "winner": "RF"
+    },
+    {
+      "metric": "brier",
+      "rf": 0.186,
+      "catboost": 0.2175597329573518,
+      "delta_cb_minus_rf": 0.03155973295735179,
+      "winner": "RF"
+    },
+    {
+      "metric": "log_loss",
+      "rf": 0.555,
+      "catboost": 0.6221308420300328,
+      "delta_cb_minus_rf": 0.06713084203003272,
+      "winner": "RF"
+    },
+    {
+      "metric": "ece_uncalibrated",
+      "rf": 0.1187,
+      "catboost": 0.20195234655126867,
+      "delta_cb_minus_rf": 0.08325234655126867,
+      "winner": "RF"
+    },
+    {
+      "metric": "ece_isotonic",
+      "rf": 0.0029,
+      "catboost": 0.0019780144831760137,
+      "delta_cb_minus_rf": -0.0009219855168239861,
+      "winner": "CatBoost"
+    },
+    {
+      "metric": "brier_isotonic",
+      "rf": 0.1704,
+      "catboost": 0.17567340048847102,
+      "delta_cb_minus_rf": 0.005273400488471025,
+      "winner": "RF"
+    }
+  ],
+  "summary": {
+    "ranking_wins_rf": 4,
+    "ranking_wins_catboost": 1,
+    "note": "CatBoost usa auto_class_weights=Balanced → mais recall / menos precision. Comparar F1 e ROC/PR-AUC juntos; não só accuracy."
+  }
+}

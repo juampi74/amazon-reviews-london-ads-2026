@@ -99,7 +99,7 @@ def models_current():
     return {
         "model_version": I.MODEL_VERSION,
         "dataset_version": I.DATASET_VERSION,
-        "algorithm": "RandomForest (300) + isotonic calibration",
+        "algorithm": "CatBoost (500) + isotonic calibration",
         "features": len(A.feature_names),
         "subcategories": I.REAL_SUBCATS,
         "cv_metrics": m.get("report_oof", {}),

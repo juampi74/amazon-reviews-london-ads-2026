@@ -30,7 +30,7 @@ REAL_SUBCATS = [
 DETAIL_FLAGS = ["has_brand", "has_item_form", "has_color",
                 "has_scent", "has_skin_type", "has_hair_type"]
 
-MODEL_VERSION = "success-rf-0.1.0"
+MODEL_VERSION = "success-catboost-0.2.0"
 DATASET_VERSION = "beauty-master-2026-07"
 
 
@@ -74,14 +74,19 @@ class Artifacts:
 
     # ---------- predicciones ----------
     def calibrated_proba(self, vec: np.ndarray) -> tuple[float, float]:
-        rf_p = float(self.model.predict_proba(vec.reshape(1, -1))[0, 1])
-        p_cal = float(self.calibrator.predict([rf_p])[0])
-        return p_cal, rf_p
+        raw_p = float(self.model.predict_proba(vec.reshape(1, -1))[0, 1])
+        p_cal = float(self.calibrator.predict([raw_p])[0])
+        return p_cal, raw_p
 
     def uncertainty(self, vec: np.ndarray) -> float:
-        per_tree = np.array([est.predict_proba(vec.reshape(1, -1))[0, 1]
-                             for est in self.model.estimators_])
-        return float(per_tree.std())
+        """RF: tree std. CatBoost: probability margin ``1 - |2p - 1|``."""
+        X = vec.reshape(1, -1)
+        if hasattr(self.model, "estimators_"):
+            per = np.array([est.predict_proba(X)[0, 1]
+                            for est in self.model.estimators_])
+            return float(per.std())
+        p = float(self.model.predict_proba(X)[0, 1])
+        return float(1.0 - abs(2.0 * p - 1.0))
 
     def comparables(self, vec: np.ndarray, k: int = 5) -> list[dict]:
         dist, idx = self.knn.kneighbors(vec.reshape(1, -1), n_neighbors=k)
@@ -157,7 +162,7 @@ def analyze(subcategory: str, title: str, description: str, price: float,
     text = f"{title or ''} {description or ''}".strip()
     vec = A.build_vector(subcategory, text, price, detail_flags)
 
-    p_cal, rf_p = A.calibrated_proba(vec)
+    p_cal, _raw_p = A.calibrated_proba(vec)
     unc = A.uncertainty(vec)
     sat = A.saturation(vec)
     comps = A.comparables(vec, k=5)

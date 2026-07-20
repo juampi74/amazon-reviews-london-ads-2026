@@ -23,7 +23,6 @@ from scipy import stats
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import StratifiedKFold, cross_val_predict
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.inspection import permutation_importance
 from sklearn.neighbors import NearestNeighbors
@@ -32,6 +31,14 @@ from sklearn.metrics import (
     accuracy_score, roc_auc_score, average_precision_score,
     brier_score_loss, log_loss,
 )
+
+try:
+    from catboost import CatBoostClassifier
+except ImportError as e:  # pragma: no cover
+    CatBoostClassifier = None
+    _CATBOOST_IMPORT_ERROR = e
+else:
+    _CATBOOST_IMPORT_ERROR = None
 
 
 # ============================================================
@@ -242,13 +249,29 @@ def scale_numeric(X_train, X_test):
 # PARTE V — Modelado y validación
 # ============================================================
 
+def make_success_classifier(random_state=42, iterations=500):
+    """CatBoost product classifier (replaces Random Forest for Phase 1)."""
+    if CatBoostClassifier is None:
+        raise ImportError(
+            "catboost is required. Install with: pip install catboost>=1.2"
+        ) from _CATBOOST_IMPORT_ERROR
+    return CatBoostClassifier(
+        iterations=iterations,
+        depth=6,
+        learning_rate=0.05,
+        loss_function="Logloss",
+        auto_class_weights="Balanced",
+        random_seed=random_state,
+        verbose=False,
+        allow_writing_files=False,
+        thread_count=-1,
+    )
+
+
 def train_and_crossval(X, y, n_splits=5, random_state=42):
-    """RF con validación estratificada. Devuelve el modelo entrenado y las
-    probabilidades out-of-fold (para calibración/evaluación honesta)."""
+    """CatBoost with stratified CV. Returns fitted model + out-of-fold probs."""
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
-    clf = RandomForestClassifier(
-        n_estimators=300, max_depth=None, min_samples_leaf=5,
-        class_weight="balanced", n_jobs=-1, random_state=random_state)
+    clf = make_success_classifier(random_state=random_state)
     proba_oof = cross_val_predict(clf, X, y, cv=skf, method="predict_proba")[:, 1]
     clf.fit(X, y)                 # modelo final sobre todo el set (a serializar)
     return clf, proba_oof
@@ -326,10 +349,26 @@ def success_score(p_cal) -> int:
     return int(round(100 * float(p_cal)))
 
 
-def rf_uncertainty(rf: RandomForestClassifier, X) -> np.ndarray:
-    """Desv. estándar de la probabilidad entre árboles (incertidumbre por producto)."""
-    per_tree = np.stack([est.predict_proba(X)[:, 1] for est in rf.estimators_], axis=0)
-    return per_tree.std(axis=0)
+def model_uncertainty(clf, X) -> np.ndarray:
+    """Per-row prediction uncertainty in ~[0, 1].
+
+    - RandomForest (legacy): std across trees.
+    - CatBoost: probability margin ``1 - |2p - 1|`` (1 at p=0.5, 0 at extremes).
+      Late-stage boost std is near-zero for this setup and underweights risk.
+    """
+    X = np.asarray(X)
+    if hasattr(clf, "estimators_"):
+        per_tree = np.stack(
+            [est.predict_proba(X)[:, 1] for est in clf.estimators_], axis=0)
+        return per_tree.std(axis=0)
+
+    p = clf.predict_proba(X)[:, 1]
+    return 1.0 - np.abs(2.0 * p - 1.0)
+
+
+def rf_uncertainty(clf, X) -> np.ndarray:
+    """Alias kept for callers; prefer model_uncertainty."""
+    return model_uncertainty(clf, X)
 
 
 def build_comparables_index(V_catalog):

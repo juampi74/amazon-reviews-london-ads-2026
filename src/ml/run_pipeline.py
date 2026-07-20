@@ -10,10 +10,10 @@ descritas en FORMULAS_AND_METRICS.md y PROJECT_CONTEXT.md:
   Parte II   Correlaciones (Pearson/Spearman), normalidad, hipótesis, chi²/V
   Parte III  Target de éxito (percentiles por subcategoría) + sensibilidad
   Parte IV   Features: price_fit, TF-IDF(title+features), one-hot, flags details
-  Parte V    RF + validación estratificada k-fold + probabilidades out-of-fold
+  Parte V    CatBoost + validación estratificada k-fold + probabilidades out-of-fold
   Parte VI   Matriz de confusión, F1/prec/recall, ROC-AUC, PR-AUC, Brier, ECE
   Parte VII  Calibración (isotónica) + importancia (Gini + permutación) + SHAP
-  Parte VIII score 0-100, incertidumbre RF, k-NN/coseno, saturación, riesgo,
+  Parte VIII score 0-100, incertidumbre (boosting stages), k-NN/coseno, saturación, riesgo,
              precio sugerido, IC de Wilson
 
 Artefactos (para la app Streamlit) → output/models/
@@ -43,9 +43,8 @@ np.random.seed(RNG)
 
 # ---- Rutas -----------------------------------------------------------------
 HERE = Path(__file__).resolve()
-REPO = HERE.parents[2]                 # .../REPO
-PROJECT = REPO.parent                  # .../PROJECT
-CSV = PROJECT / "Master_Beauty_Dataset.csv"
+REPO = HERE.parents[2]                 # .../amazon-reviews-london-ads-2026
+CSV = REPO / "Master_Beauty_Dataset.csv"
 
 OUT_MODELS = REPO / "output" / "models"
 OUT_METRICS = REPO / "output" / "metrics"
@@ -494,7 +493,7 @@ def _fig_importance(mdi, perm):
 def part_VIII(df, X, clf, calibrated, p_cal, thr, num_cols):
     banner("PARTE VIII · Métricas del dashboard + artefactos")
     # incertidumbre RF
-    unc = M.rf_uncertainty(clf, X[np.random.RandomState(RNG).choice(len(X), 2000, replace=False)])
+    unc = M.model_uncertainty(clf, X[np.random.RandomState(RNG).choice(len(X), 2000, replace=False)])
     print(f"Incertidumbre RF (muestra): media={unc.mean():.4f} max={unc.max():.4f}")
 
     # índice k-NN coseno (comparables) — sobre matriz de features
@@ -541,7 +540,8 @@ def part_VIII(df, X, clf, calibrated, p_cal, thr, num_cols):
         print("  ", f.name)
 
     RESULTS["part_VIII"] = {
-        "rf_uncertainty_mean": float(unc.mean()),
+        "model_uncertainty_mean": float(unc.mean()),
+        "rf_uncertainty_mean": float(unc.mean()),  # alias legacy for downstream readers
         "example_product": {
             "title": df["title"].iloc[ex][:80], "score": score,
             "saturation": sat, "risk": risk,

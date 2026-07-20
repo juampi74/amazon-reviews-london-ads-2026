@@ -22,7 +22,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.isotonic import IsotonicRegression
 from sklearn.metrics import brier_score_loss
@@ -70,9 +69,7 @@ def leakfree_oof(df, y):
         # price_fit: stats SOLO de train
         Xtr = assemble(dtr, price_fit_from_train(dtr, dtr), Xtr_txt)
         Xte = assemble(dte, price_fit_from_train(dtr, dte), Xte_txt)
-        clf = RandomForestClassifier(
-            n_estimators=300, min_samples_leaf=5, class_weight="balanced",
-            n_jobs=-1, random_state=RNG)
+        clf = M.make_success_classifier(random_state=RNG)
         clf.fit(Xtr, y[tr])
         proba[te] = clf.predict_proba(Xte)[:, 1]
         print(f"  fold {i}/5 listo")

@@ -156,28 +156,50 @@ Artefactos: `tfidf_vectorizer.pkl`, `feature_names.json`.
 
 ## Parte V–VI — Modelo, validación y evaluación
 
-**Modelo:** Random Forest (300 árboles, `min_samples_leaf=5`, `class_weight="balanced"`),
-**validación estratificada 5-fold**, probabilidades **out-of-fold** (sin fuga).
+**Modelo actual (producto):** CatBoost (500 iteraciones, `depth=6`, `learning_rate=0.05`,
+`auto_class_weights="Balanced"`), **validación estratificada 5-fold**, probabilidades
+**out-of-fold** (sin fuga). Artefacto: `success-catboost-0.2.0`.
 
-**Métricas out-of-fold (honestas):**
+**Baseline documentado (fase anterior):** Random Forest (300 árboles, `min_samples_leaf=5`,
+`class_weight="balanced"`), mismo protocolo OOF. Congelado en
+`output/metrics/rf_baseline_oof.json`.
 
-| Métrica | Valor |
-|---|---|
-| Accuracy | 0.748 |
-| Precisión | 0.529 |
-| Recall | 0.298 |
-| **F1** | **0.381** |
-| **ROC-AUC** | **0.715** |
-| **PR-AUC** (average precision) | **0.472** |
-| Brier | 0.186 |
-| Log-loss | 0.555 |
+### Comparación RF vs CatBoost (OOF, threshold 0.5)
 
-**Matriz de confusión (OOF):** TN=31,105 · FP=3,218 · FN=8,503 · TP=3,609.
+Reproducible con:
 
-> **Interpretación honesta (consistente con los MD):** AUC **modesto (0.715)** — hay señal real
-> y útil, pero el recall es bajo (0.30): el modelo es **preciso cuando dice "éxito" (precisión
-> 0.53 sobre una base de 26%)** pero conservador. Esto respalda mostrar el resultado del
-> dashboard como **rango con incertidumbre**, no como certeza. Figura: `output/figures/03_evaluation.png`.
+```bash
+cd REPO/src/ml && python3 compare_models.py
+```
+
+Salida máquina: `output/metrics/model_comparison.json`.
+
+| Métrica | RF (baseline) | CatBoost (actual) | Δ (CB − RF) | Mejor |
+|---|---:|---:|---:|---|
+| Accuracy | 0.748 | 0.642 | −0.106 | RF |
+| Precisión | 0.529 | 0.385 | −0.144 | RF |
+| Recall | 0.298 | 0.622 | +0.324 | CatBoost |
+| **F1** | 0.381 | **0.476** | +0.095 | **CatBoost** |
+| **ROC-AUC** | **0.715** | 0.692 | −0.023 | **RF** |
+| **PR-AUC** | **0.472** | 0.432 | −0.040 | **RF** |
+| Brier ↓ | **0.186** | 0.218 | +0.032 | **RF** |
+| Log-loss ↓ | **0.555** | 0.622 | +0.067 | **RF** |
+| ECE sin calibrar ↓ | **0.119** | 0.202 | +0.083 | RF |
+| ECE isotónica OOF ↓ | 0.003 | **0.002** | −0.001 | CatBoost (≈empate) |
+
+**Matrices de confusión (OOF):**
+
+| | TN | FP | FN | TP |
+|---|---:|---:|---:|---:|
+| RF | 31,105 | 3,218 | 8,503 | 3,609 |
+| CatBoost | 22,295 | 12,028 | 4,578 | 7,534 |
+
+> **Lectura:** CatBoost (con pesos balanceados) es **más agresivo**: sube mucho el recall
+> (+0.32) y el F1 (+0.10), a costa de precisión y de un AUC/PR-AUC algo peores. RF era
+> **conservador** (preciso cuando dice éxito, pero deja muchos éxitos sin detectar). Tras
+> calibración isotónica OOF, ambos quedan honestos (ECE ≈ 0.002–0.003). Para ranking puro
+> manda RF; para capturar más productos exitosos en el dashboard, CatBoost equilibra mejor.
+> Figura actual: `output/figures/03_evaluation.png`.
 
 ### Auditoría de fuga de datos (data leakage)
 
@@ -274,7 +296,9 @@ o fuentes externas, como documenta `METHODS_TO_MOCKUP.md`. Figura del barrido de
 
 | Archivo | Contenido |
 |---|---|
-| `output/models/model.pkl` | Random Forest final |
+| `output/models/model.pkl` | CatBoost final (`success-catboost-0.2.0`) |
+| `output/metrics/rf_baseline_oof.json` | Baseline RF congelado (comparación) |
+| `output/metrics/model_comparison.json` | Tabla RF vs CatBoost (`compare_models.py`) |
 | `output/models/calibrator.pkl` | Calibrador desplegable (features → prob) |
 | `output/models/calibrator_1d.pkl` | Calibrador isotónico honesto (OOF) |
 | `output/models/knn_index.pkl` | Índice k-NN coseno (comparables) |
@@ -289,17 +313,19 @@ o fuentes externas, como documenta `METHODS_TO_MOCKUP.md`. Figura del barrido de
 
 ## Conclusión (honestidad estadística)
 
-1. **La hipótesis se resuelve del lado "señal débil pero real":** el modelo alcanza
-   **ROC-AUC 0.715 / PR-AUC 0.472** — mejor que el azar y útil, pero lejos de determinista. El
-   éxito en este mercado depende en buena parte de factores fuera de los datos (marketing,
-   marca), tal como anticipa `PROJECT_CONTEXT.md §3`.
-2. **El precio casi no predice el éxito** (d=−0.14, ρ=0.07): el `price_fit` es el feature
+1. **La hipótesis se resuelve del lado "señal débil pero real":** el CatBoost actual alcanza
+   **ROC-AUC 0.692 / PR-AUC 0.432** (RF baseline: 0.715 / 0.472) — mejor que el azar y útil,
+   pero lejos de determinista. El éxito en este mercado depende en buena parte de factores
+   fuera de los datos (marketing, marca), tal como anticipa `PROJECT_CONTEXT.md §3`.
+2. **RF vs CatBoost:** CatBoost gana en F1/recall (perfil más equilibrado para producto);
+   RF gana en ROC/PR-AUC y Brier. Ver tabla en Parte V–VI y `compare_models.py`.
+3. **El precio casi no predice el éxito** (d=−0.14, ρ=0.07): el `price_fit` es el feature
    estructurado más importante, pero su efecto absoluto es pequeño → precio como **rango**, no
    como número exacto.
-3. **La definición de éxito es robusta** (5–9% de flip ante umbrales alternativos).
-4. **El modelo queda bien calibrado** (ECE 0.003) → los scores del dashboard son honestos.
-   La **auditoría de fuga** confirma que el AUC no está inflado (Δ ROC-AUC −0.0002 al eliminar
-   toda fuga de features).
-5. **Limitaciones declaradas:** éxito es un proxy (rating+volumen), no ventas reales; sin serie
+4. **La definición de éxito es robusta** (5–9% de flip ante umbrales alternativos).
+5. **El modelo queda bien calibrado** (ECE isotónica ≈ 0.002) → los scores del dashboard son
+   honestos. La **auditoría de fuga** (sobre RF) confirma que el AUC no estaba inflado
+   (Δ ROC-AUC −0.0002).
+6. **Limitaciones declaradas:** éxito es un proxy (rating+volumen), no ventas reales; sin serie
    temporal (no hay forecast real); sin texto de reseñas (no hay sentiment); SHAP debe correrse
    en Colab. El framework fallaría en una subcategoría genuinamente nueva sin comparables.

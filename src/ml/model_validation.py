@@ -24,7 +24,6 @@ import warnings
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -50,9 +49,8 @@ def build_split(dtr, dte):
     return Xtr, Xte
 
 
-def rf(seed=RNG):
-    return RandomForestClassifier(n_estimators=300, min_samples_leaf=5,
-                                  class_weight="balanced", n_jobs=-1, random_state=seed)
+def success_model(seed=RNG):
+    return M.make_success_classifier(random_state=seed)
 
 
 def main():
@@ -69,13 +67,13 @@ def main():
     tr, te = train_test_split(idx, test_size=0.2, stratify=y, random_state=RNG)
     dtr, dte = df.iloc[tr], df.iloc[te]
     Xtr, Xte = build_split(dtr, dte)
-    model = rf().fit(Xtr, y[tr])
+    model = success_model().fit(Xtr, y[tr])
     proba_te = model.predict_proba(Xte)[:, 1]
     # calibración HONESTA: isotónica ajustada sobre predicciones OUT-OF-FOLD del train
-    # (no sobre las de entrenamiento, que están sobre-confiadas), aplicada al test.
+    # (no sobre las de entrenamiento, que quedan sobre-confiadas), aplicada al test.
     from sklearn.model_selection import cross_val_predict, StratifiedKFold
     proba_tr_oof = cross_val_predict(
-        rf(), Xtr, y[tr], method="predict_proba",
+        success_model(), Xtr, y[tr], method="predict_proba",
         cv=StratifiedKFold(5, shuffle=True, random_state=RNG))[:, 1]
     iso = IsotonicRegression(out_of_bounds="clip").fit(proba_tr_oof, y[tr])
     proba_te_cal = iso.predict(proba_te)
@@ -111,7 +109,7 @@ def main():
     lr1.fit(Xtr[:, [0]], y[tr])
     base["logreg_price_fit_only"] = round(float(roc_auc_score(
         y[te], lr1.predict_proba(Xte[:, [0]])[:, 1])), 4)
-    base["random_forest_full"] = t1["roc_auc"]
+    base["catboost_full"] = t1["roc_auc"]
     results["T2_baselines_roc_auc"] = base
     print("  ", base)
 
@@ -122,7 +120,7 @@ def main():
     for i in range(3):
         y_shuf = y[tr].copy()
         rng.shuffle(y_shuf)
-        m = rf(seed=100 + i).fit(Xtr, y_shuf)
+        m = success_model(seed=100 + i).fit(Xtr, y_shuf)
         perm_aucs.append(float(roc_auc_score(y[te], m.predict_proba(Xte)[:, 1])))
         print(f"  permutación {i+1}: AUC={perm_aucs[-1]:.4f}")
     results["T3_label_permutation"] = {
@@ -141,7 +139,7 @@ def main():
     for s in [1, 7, 21, 99]:
         tr2, te2 = train_test_split(idx, test_size=0.2, stratify=y, random_state=s)
         Xtr2, Xte2 = build_split(df.iloc[tr2], df.iloc[te2])
-        m = rf(seed=s).fit(Xtr2, y[tr2])
+        m = success_model(seed=s).fit(Xtr2, y[tr2])
         a = float(roc_auc_score(y[te2], m.predict_proba(Xte2)[:, 1]))
         seed_aucs.append(round(a, 4))
         print(f"  seed {s}: AUC={a:.4f}")

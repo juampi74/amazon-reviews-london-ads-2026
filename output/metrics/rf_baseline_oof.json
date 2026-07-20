@@ -1,0 +1,27 @@
+{
+  "model": "RandomForest",
+  "source": "ANALYSIS_RESULTS.md (run 2026-07, OOF 5-fold)",
+  "hparams": {
+    "n_estimators": 300,
+    "min_samples_leaf": 5,
+    "class_weight": "balanced"
+  },
+  "report_oof": {
+    "confusion": {"TN": 31105, "FP": 3218, "FN": 8503, "TP": 3609},
+    "accuracy": 0.748,
+    "precision": 0.529,
+    "recall": 0.298,
+    "f1": 0.381,
+    "roc_auc": 0.715,
+    "pr_auc": 0.472,
+    "brier": 0.186,
+    "log_loss": 0.555
+  },
+  "ece_uncalibrated": 0.1187,
+  "honest_calibration_oof": {
+    "uncalibrated": {"ece": 0.1187, "brier": 0.1862},
+    "isotonic_oof": {"ece": 0.0029, "brier": 0.1704},
+    "platt_sigmoid_oof": {"ece": 0.0043, "brier": 0.1703},
+    "best_method": "isotonic_oof"
+  }
+}

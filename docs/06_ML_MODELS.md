@@ -47,10 +47,10 @@ success = 1 if:
 | Order | Model | Role |
 |---|---|---|
 | 1 | Logistic Regression + TF-IDF | Explainable baseline |
-| 2 | Random Forest | Non-linear baseline and tree-based uncertainty |
-| 3 | CatBoost | Product candidate for mixed data |
+| 2 | Random Forest | Legacy non-linear baseline (pre-0.2.0) |
+| 3 | **CatBoost** | **Current product model** (`success-catboost-0.2.0`) |
 
-The winner is selected by PR-AUC, F1, Brier, ECE, and stability, not by prior preference.
+The winner is selected by PR-AUC, F1, Brier, ECE, and stability, not by prior preference. Phase 1 replaced RF with CatBoost; TF-IDF features are unchanged.
 
 ## 5. Calibration
 

@@ -20,47 +20,47 @@
         "mean": 4.36214708732637,
         "median": 4.4,
         "std": 0.30959084353941235,
-        "var": 0.0958464904034449,
+        "var": 0.09584649040344491,
         "min": 1.7000000000000002,
         "max": 5.0,
         "Q1": 4.2,
         "Q3": 4.6,
         "IQR": 0.39999999999999947,
         "cv": 0.07097212389717136,
-        "skewness": -1.4358743546580202,
-        "kurtosis_excess": 3.5581229111784385,
+        "skewness": -1.4358743546580197,
+        "kurtosis_excess": 3.558122911178436,
         "p60": 4.5
       },
       "rating_number": {
         "n": 46435,
         "mean": 2366.3248842467965,
         "median": 876.0,
-        "std": 6018.872494294203,
-        "var": 36226826.102571316,
+        "std": 6018.872494294202,
+        "var": 36226826.10257131,
         "min": 1,
         "max": 340182,
         "Q1": 422.0,
         "Q3": 2041.5,
         "IQR": 1619.5,
-        "cv": 2.5435528884318925,
-        "skewness": 14.855561581849457,
-        "kurtosis_excess": 516.9702351615847,
+        "cv": 2.543552888431892,
+        "skewness": 14.855561581849456,
+        "kurtosis_excess": 516.9702351615849,
         "p60": 1185.0
       },
       "price": {
         "n": 46435,
         "mean": 24.01803940992786,
         "median": 15.99,
-        "std": 31.213463429309996,
-        "var": 974.2802992528725,
+        "std": 31.213463429309993,
+        "var": 974.2802992528724,
         "min": 0.01,
         "max": 2398.91,
         "Q1": 9.96,
         "Q3": 26.21,
         "IQR": 16.25,
-        "cv": 1.2995841540841135,
-        "skewness": 14.090925963125457,
-        "kurtosis_excess": 761.8623257435412,
+        "cv": 1.2995841540841133,
+        "skewness": 14.090925963125459,
+        "kurtosis_excess": 761.8623257435418,
         "p60": 19.35
       }
     },
@@ -80,11 +80,11 @@
     },
     "log1p_skew": {
       "rating_number": {
-        "raw_skew": 14.855561581849457,
-        "log1p_skew": 0.11058081085222567
+        "raw_skew": 14.855561581849456,
+        "log1p_skew": 0.11058081085222572
       },
       "price": {
-        "raw_skew": 14.090925963125457,
+        "raw_skew": 14.090925963125459,
         "log1p_skew": 0.7534681535814508
       }
     },
@@ -100,25 +100,25 @@
   "part_II": {
     "correlations": {
       "price~rating": {
-        "pearson_r": 0.012976446447465049,
-        "pearson_p": 0.005169001981895045,
+        "pearson_r": 0.012976446447465054,
+        "pearson_p": 0.005169001981895003,
         "spearman_rho": 0.07012393957533263,
         "spearman_p": 1.0415127563205156e-51
       },
       "price~log_volume": {
-        "pearson_r": -0.09616126386403546,
-        "pearson_p": 8.227361575796288e-96,
+        "pearson_r": -0.09616126386403548,
+        "pearson_p": 8.22736157580124e-96,
         "spearman_rho": -0.13372953830867257,
         "spearman_p": 3.114076665992914e-184
       },
       "rating~log_volume": {
-        "pearson_r": 0.19113419022064526,
+        "pearson_r": 0.1911341902206453,
         "pearson_p": 0.0,
         "spearman_rho": 0.18474171003256795,
         "spearman_p": 0.0
       },
       "review_count~rating_number": {
-        "pearson_r": 0.6988397881380255,
+        "pearson_r": 0.6988397881380256,
         "pearson_p": 0.0,
         "spearman_rho": 0.6505472233070534,
         "spearman_p": 0.0
@@ -127,7 +127,7 @@
     "normality": {
       "average_rating": {
         "statistic": 1350.913416313226,
-        "p": 4.496544368371454e-294,
+        "p": 4.49654436837145e-294,
         "is_normal": false
       },
       "rating_number": {
@@ -234,8 +234,8 @@
     "group_compare": {
       "price": {
         "welch_t": -15.743808704872857,
-        "welch_p": 1.2491495816205117e-55,
-        "cohens_d": -0.14012370062664725,
+        "welch_p": 1.249149581620565e-55,
+        "cohens_d": -0.14012370062664722,
         "mannwhitney_U": 187631949.0,
         "mannwhitney_p": 2.8441595499085697e-57,
         "rank_biserial": 0.09731612833724967
@@ -243,7 +243,7 @@
       "rating_number": {
         "welch_t": 47.09563105319256,
         "welch_p": 0.0,
-        "cohens_d": 0.75296294725255,
+        "cohens_d": 0.7529629472525498,
         "mannwhitney_U": 379763027.0,
         "mannwhitney_p": 0.0,
         "rank_biserial": -0.8270127307941868
@@ -259,7 +259,7 @@
     },
     "subcat_assoc": {
       "chi2": 72.12459480925844,
-      "p": 5.491557376341339e-13,
+      "p": 5.491557376341361e-13,
       "dof": 7,
       "cramers_v": 0.0394111373546642
     }
@@ -281,130 +281,105 @@
   "part_V_VI": {
     "report_oof": {
       "confusion": {
-        "TN": 31105,
-        "FP": 3218,
-        "FN": 8503,
-        "TP": 3609
+        "TN": 22295,
+        "FP": 12028,
+        "FN": 4578,
+        "TP": 7534
       },
-      "accuracy": 0.7475826424033596,
-      "precision": 0.5286362970558078,
-      "recall": 0.2979689564068692,
-      "f1": 0.38111832726120703,
-      "roc_auc": 0.7151085192939973,
-      "pr_auc": 0.47172995880475466,
-      "brier": 0.18619399812543094,
-      "log_loss": 0.5550459468684139
+      "accuracy": 0.6423818240551308,
+      "precision": 0.38513444433084554,
+      "recall": 0.6220277410832232,
+      "f1": 0.4757214118835638,
+      "roc_auc": 0.6915106497020246,
+      "pr_auc": 0.43223632291541725,
+      "brier": 0.2175597329573518,
+      "log_loss": 0.6221308420300328
     },
-    "ece_uncalibrated": 0.11871921792929728,
-    "leakage_audit": {
-      "note": "CV sin fuga: TF-IDF y price_fit ajustados SOLO en train por fold. El target se mantiene como definición poblacional fija (no es feature).",
-      "leaky_full_fit": {
-        "accuracy": 0.7476,
-        "precision": 0.5286,
-        "recall": 0.298,
-        "f1": 0.3811,
-        "roc_auc": 0.7151,
-        "pr_auc": 0.4717,
-        "brier": 0.1862,
-        "ece_uncal": 0.1187,
-        "ece_isotonic": 0.0029
-      },
-      "leakfree_infold": {
-        "accuracy": 0.7484,
-        "precision": 0.5317,
-        "recall": 0.2975,
-        "f1": 0.3815,
-        "roc_auc": 0.7149,
-        "pr_auc": 0.4713,
-        "brier": 0.1862,
-        "ece_uncal": 0.1188,
-        "ece_isotonic": 0.0017
-      },
-      "delta_roc_auc": -0.0002,
-      "delta_pr_auc": -0.0004
-    }
+    "ece_uncalibrated": 0.20195234655126867
   },
   "part_VII": {
-    "mdi_top20": {
-      "price_fit": 0.03842,
-      "tfidf::natural": 0.01347,
-      "tfidf::oz": 0.01315,
-      "tfidf::hair": 0.01273,
-      "tfidf::skin": 0.01235,
-      "tfidf::use": 0.01166,
-      "tfidf::free": 0.01088,
-      "tfidf::easy": 0.00927,
-      "tfidf::pack": 0.00913,
-      "tfidf::dry": 0.00852,
-      "tfidf::perfect": 0.00831,
-      "tfidf::women": 0.00786,
-      "tfidf::oil": 0.00777,
-      "tfidf::color": 0.00768,
-      "tfidf::long": 0.00763,
-      "tfidf::quality": 0.00748,
-      "tfidf::care": 0.00743,
-      "tfidf::human": 0.00701,
-      "tfidf::ounce": 0.00696,
-      "tfidf::face": 0.00673
-    },
-    "permutation_top20": {
-      "price_fit": 0.022305,
-      "has_scent": 0.008656,
-      "tfidf::natural": 0.005783,
-      "tfidf::oz": 0.003723,
-      "tfidf::pack": 0.003626,
-      "tfidf::skin": 0.002853,
-      "tfidf::hair": 0.002386,
-      "tfidf::color": 0.001878,
-      "tfidf::care": 0.001829,
-      "tfidf::dry": 0.001593,
-      "tfidf::men": 0.00152,
-      "has_color": 0.00146,
-      "tfidf::use": 0.001313,
-      "tfidf::human": 0.001284,
-      "tfidf::easy": 0.001231,
-      "tfidf::women": 0.001194,
-      "tfidf::human hair": 0.001153,
-      "tfidf::professional": 0.001136,
-      "tfidf::makeup": 0.001098,
-      "tfidf::face": 0.001015
-    },
     "honest_calibration_oof": {
       "uncalibrated": {
-        "ece": 0.11871921792929728,
-        "brier": 0.18619399812543094
+        "ece": 0.20195234655126867,
+        "brier": 0.2175597329573518
       },
       "isotonic_oof": {
-        "ece": 0.0029035171797255526,
-        "brier": 0.1704460263308125
+        "ece": 0.0019780144831760137,
+        "brier": 0.17567340048847102
       },
       "platt_sigmoid_oof": {
-        "ece": 0.004295336396901679,
-        "brier": 0.170330413714579
+        "ece": 0.003566842970494599,
+        "brier": 0.1755621105219317
       },
       "best_method": "isotonic_oof"
     },
-    "shap_status": "OMITIDO localmente: incompatibilidad numerica shap 0.50 + sklearn 1.7 (additivity check falla, valores ~1e14). El codigo esta en metrics.py.shap_values para correr en Google Colab, como indican los MD (Parte VII: correr SHAP en Colab, no en la app). Interpretabilidad local cubierta con importancia por permutacion (metodo preferido por los docs)."
+    "mdi_top20": {
+      "price_fit": 4.94994,
+      "tfidf::human": 2.48994,
+      "tfidf::human hair": 1.95501,
+      "tfidf::natural": 1.89239,
+      "has_scent": 1.61589,
+      "tfidf::synthetic": 1.53446,
+      "tfidf::skin": 1.40116,
+      "tfidf::makeup": 1.38967,
+      "tfidf::pack": 1.35827,
+      "tfidf::men": 1.13985,
+      "tfidf::oz": 1.12432,
+      "tfidf::wig": 1.1051,
+      "tfidf::hair": 1.10458,
+      "tfidf::women": 1.03658,
+      "tfidf::care": 0.92616,
+      "tfidf::professional": 0.90516,
+      "tfidf::organic": 0.89854,
+      "tfidf::ounce": 0.84533,
+      "tfidf::ingredients": 0.84489,
+      "tfidf::lashes": 0.7839
+    },
+    "permutation_top20": {
+      "price_fit": 0.024529,
+      "has_scent": 0.007181,
+      "tfidf::natural": 0.006012,
+      "tfidf::makeup": 0.005392,
+      "tfidf::pack": 0.004732,
+      "tfidf::organic": 0.003938,
+      "tfidf::human": 0.003931,
+      "tfidf::skin": 0.003909,
+      "tfidf::hair": 0.003789,
+      "tfidf::usa": 0.003422,
+      "has_color": 0.003403,
+      "tfidf::professional": 0.003377,
+      "tfidf::kids": 0.003375,
+      "tfidf::synthetic": 0.003337,
+      "tfidf::clip": 0.003337,
+      "tfidf::brush": 0.00332,
+      "tfidf::oz": 0.003274,
+      "tfidf::men": 0.003197,
+      "tfidf::ounce": 0.003084,
+      "tfidf::women": 0.003073
+    },
+    "shap_status": "OMITIDO: No module named 'shap'",
+    "shap_top20": {}
   },
   "part_VIII": {
-    "rf_uncertainty_mean": 0.2972139877778516,
+    "model_uncertainty_mean": 0.7715403372037689,
+    "rf_uncertainty_mean": 0.7715403372037689,
     "example_product": {
       "title": "REVLON One-Step Volumizer Original 1.0 Hair Dryer and Hot Air Brush, Black",
-      "score": 82,
+      "score": 37,
       "saturation": 95.02583979328165,
-      "risk": 43,
+      "risk": 75,
       "comparables_success": "4/5",
       "wilson_ci": [
         0.3755282641185388,
         0.9637768390302125
       ],
-      "best_price_fit": 1.25
+      "best_price_fit": -2.0
     },
     "score_distribution": {
-      "mean": 27.735879004041408,
-      "median": 19.942505823946945,
-      "p10": 8.51853372048748,
-      "p90": 60.84460741633737
+      "mean": 26.336839200526974,
+      "median": 24.622194794557544,
+      "p10": 11.149066472611347,
+      "p90": 43.7767952289407
     }
   }
 }

@@ -1,0 +1,533 @@
+{
+  "protocol": {
+    "oof": "5-fold estratificado + isotónica fold-a-fold (honesto)",
+    "dashboard": "predict in-sample + isotónica fit nos OOF (tipo app)",
+    "note": "OOF = teto honesto do que o modelo generaliza; dashboard pode ir a 100 por sobreajuste in-sample."
+  },
+  "catboost": {
+    "oof_calibrated": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 26.086501561322276,
+      "median": 24.3,
+      "p90": 44.1,
+      "p99": 63.1,
+      "n_ge_70": 180,
+      "n_ge_80": 38,
+      "n_ge_90": 35,
+      "n_ge_100": 20
+    },
+    "dashboard": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 26.417878755249266,
+      "median": 24.4,
+      "p90": 44.0,
+      "p99": 63.3,
+      "n_ge_70": 331,
+      "n_ge_80": 54,
+      "n_ge_90": 52,
+      "n_ge_100": 32
+    },
+    "top_oof": [
+      {
+        "parent_asin": "B07NNNVMVV",
+        "title": "Johnson's Baby Curl-Defining, Frizz Control, Tear-Free Kids' Shampoo with Shea B",
+        "subcategory": "Hair Care",
+        "price": 5.96,
+        "average_rating": 4.7,
+        "rating_number": 19335,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B09F44XFG5",
+        "title": "NIVEA Nourishing In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.37,
+        "average_rating": 4.6,
+        "rating_number": 11713,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B0C5N83VPJ",
+        "title": "NIVEA Intense Healing Body Lotion, 72 Hour Moisture for Dry to Very Dry Skin, 16",
+        "subcategory": "Skin Care",
+        "price": 7.29,
+        "average_rating": 4.7,
+        "rating_number": 21610,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B007NNU2WI",
+        "title": "NYX PROFESSIONAL MAKEUP Pore Filler Blurring Primer, Vegan Face Primer",
+        "subcategory": "Makeup",
+        "price": 11.65,
+        "average_rating": 4.0,
+        "rating_number": 13056,
+        "success": 0,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B09JYBBQQZ",
+        "title": "Nivea Men Maximum Hydration Body Wash, Aloe Vera Body Wash for Dry Skin, 30 Fl O",
+        "subcategory": "Skin Care",
+        "price": 6.39,
+        "average_rating": 4.6,
+        "rating_number": 21753,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B076G2XGY3",
+        "title": "NIVEA Essentially Enriched Body Lotion for Dry Skin, Pack of 2, 16.9 Fl Oz Pump ",
+        "subcategory": "Skin Care",
+        "price": 10.98,
+        "average_rating": 4.7,
+        "rating_number": 15340,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B09F4698T8",
+        "title": "NIVEA Cocoa Butter In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.89,
+        "average_rating": 4.6,
+        "rating_number": 11676,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B073CXZ8KR",
+        "title": "NIVEA Oil Infused Body Lotion, Cherry Blossom Lotion with Jojoba Oil, Moisturizi",
+        "subcategory": "Skin Care",
+        "price": 6.37,
+        "average_rating": 4.7,
+        "rating_number": 13587,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B000N758A2",
+        "title": "OGX Nourishing + Coconut Milk Anti-Breakage Serum, 4 Fl Oz",
+        "subcategory": "Hair Care",
+        "price": 5.92,
+        "average_rating": 4.6,
+        "rating_number": 4977,
+        "success": 1,
+        "score_cb_oof": 100.0
+      },
+      {
+        "parent_asin": "B00127S53E",
+        "title": "Nivea Men Cool Body Wash with Icy Menthol, 3 Pack of 16.9 Fl Oz Bottles",
+        "subcategory": "Skin Care",
+        "price": 14.31,
+        "average_rating": 4.6,
+        "rating_number": 9863,
+        "success": 1,
+        "score_cb_oof": 100.0
+      }
+    ],
+    "top_dashboard": [
+      {
+        "parent_asin": "B09F44XFG5",
+        "title": "NIVEA Nourishing In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.37,
+        "average_rating": 4.6,
+        "rating_number": 11713,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B0C5N83VPJ",
+        "title": "NIVEA Intense Healing Body Lotion, 72 Hour Moisture for Dry to Very Dry Skin, 16",
+        "subcategory": "Skin Care",
+        "price": 7.29,
+        "average_rating": 4.7,
+        "rating_number": 21610,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B00DEX61A8",
+        "title": "NIVEA MEN Maximum Hydration Body Lotion, 3-in-1 Nourishing Lotion for Men, 16.9 ",
+        "subcategory": "Skin Care",
+        "price": 7.28,
+        "average_rating": 4.7,
+        "rating_number": 19344,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B00DG8F02Q",
+        "title": "NIVEA Shea Nourish Body Lotion, Dry Skin Lotion with Shea Butter, 16.9 Fl Oz Pum",
+        "subcategory": "Skin Care",
+        "price": 5.81,
+        "average_rating": 4.7,
+        "rating_number": 14602,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B09JYBBQQZ",
+        "title": "Nivea Men Maximum Hydration Body Wash, Aloe Vera Body Wash for Dry Skin, 30 Fl O",
+        "subcategory": "Skin Care",
+        "price": 6.39,
+        "average_rating": 4.6,
+        "rating_number": 21753,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B07YVRGGP9",
+        "title": "Gold Bond Men's Essentials Everyday Moisture Daily Body & Hand Lotion, 14.5 oz.,",
+        "subcategory": "Skin Care",
+        "price": 9.6,
+        "average_rating": 4.7,
+        "rating_number": 10515,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B076G2XGY3",
+        "title": "NIVEA Essentially Enriched Body Lotion for Dry Skin, Pack of 2, 16.9 Fl Oz Pump ",
+        "subcategory": "Skin Care",
+        "price": 10.98,
+        "average_rating": 4.7,
+        "rating_number": 15340,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B09F4698T8",
+        "title": "NIVEA Cocoa Butter In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.89,
+        "average_rating": 4.6,
+        "rating_number": 11676,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B073CXZ8KR",
+        "title": "NIVEA Oil Infused Body Lotion, Cherry Blossom Lotion with Jojoba Oil, Moisturizi",
+        "subcategory": "Skin Care",
+        "price": 6.37,
+        "average_rating": 4.7,
+        "rating_number": 13587,
+        "success": 1,
+        "score_cb_dash": 100.0
+      },
+      {
+        "parent_asin": "B000N758A2",
+        "title": "OGX Nourishing + Coconut Milk Anti-Breakage Serum, 4 Fl Oz",
+        "subcategory": "Hair Care",
+        "price": 5.92,
+        "average_rating": 4.6,
+        "rating_number": 4977,
+        "success": 1,
+        "score_cb_dash": 100.0
+      }
+    ]
+  },
+  "random_forest": {
+    "oof_calibrated": {
+      "min": 1.4,
+      "max": 100.0,
+      "mean": 26.069910627759228,
+      "median": 24.8,
+      "p90": 47.2,
+      "p99": 69.9,
+      "n_ge_70": 396,
+      "n_ge_80": 88,
+      "n_ge_90": 17,
+      "n_ge_100": 12
+    },
+    "dashboard": {
+      "min": 1.6,
+      "max": 100.0,
+      "mean": 27.871034779799725,
+      "median": 17.6,
+      "p90": 67.8,
+      "p99": 79.7,
+      "n_ge_70": 2480,
+      "n_ge_80": 264,
+      "n_ge_90": 132,
+      "n_ge_100": 129
+    },
+    "top_oof": [
+      {
+        "parent_asin": "B09F44XFG5",
+        "title": "NIVEA Nourishing In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.37,
+        "average_rating": 4.6,
+        "rating_number": 11713,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B092TYFX6Q",
+        "title": "Gillette Fusion5 Razors for Men, 1 Razor, 4 Blade Refills, Lubrastrip for a More",
+        "subcategory": "Shave & Hair Removal",
+        "price": 20.0,
+        "average_rating": 4.7,
+        "rating_number": 31802,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B09F4698T8",
+        "title": "NIVEA Cocoa Butter In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.89,
+        "average_rating": 4.6,
+        "rating_number": 11676,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B097CYSB8L",
+        "title": "NIVEA White Peach and Jasmine Body Wash with Nourishing Serum, 20 Fl Oz",
+        "subcategory": "Skin Care",
+        "price": 5.0,
+        "average_rating": 4.5,
+        "rating_number": 14732,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B091GVWR9H",
+        "title": "OGX Nourishing + Coconut Milk Moisturizing Conditioner for Strong & Healthy Hair",
+        "subcategory": "Hair Care",
+        "price": 6.8,
+        "average_rating": 4.5,
+        "rating_number": 5086,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B082QBPDJC",
+        "title": "NIVEA Coconut and Almond Milk Body Wash with Nourishing Serum, 20 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 5.0,
+        "average_rating": 4.6,
+        "rating_number": 7544,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B00DG8EZY0",
+        "title": "NIVEA Original Moisture Body Lotion with Vitamin E, 16.9 Fl Oz Pump Bottle",
+        "subcategory": "Skin Care",
+        "price": 6.41,
+        "average_rating": 4.7,
+        "rating_number": 4940,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B082QB23YM",
+        "title": "NIVEA Basil and White Tea Body Wash with Nourishing Serum, 20 Fl Oz Bottle",
+        "subcategory": "Skin Care",
+        "price": 5.0,
+        "average_rating": 4.6,
+        "rating_number": 4448,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B0C7TQSS9C",
+        "title": "NIVEA Vanilla and Sweet Cream Pampering Body Wash with Nourishing Serum, 20 Fl O",
+        "subcategory": "Skin Care",
+        "price": 3.99,
+        "average_rating": 4.6,
+        "rating_number": 4600,
+        "success": 1,
+        "score_rf_oof": 100.0
+      },
+      {
+        "parent_asin": "B082QC2MCX",
+        "title": "NIVEA Shea Butter Nourishing Body Wash, Moisturizing Body Wash for Dry Skin, 20 ",
+        "subcategory": "Skin Care",
+        "price": 4.99,
+        "average_rating": 4.6,
+        "rating_number": 4372,
+        "success": 1,
+        "score_rf_oof": 100.0
+      }
+    ],
+    "top_dashboard": [
+      {
+        "parent_asin": "B01LSUQSB0",
+        "title": "REVLON One-Step Volumizer Original 1.0 Hair Dryer and Hot Air Brush, Black",
+        "subcategory": "Hair Care",
+        "price": 38.8,
+        "average_rating": 4.6,
+        "rating_number": 335286,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B07H9XB7G6",
+        "title": "REVLON One-Step Volumizer Original 1.0 Hair Dryer and Hot Air Brush, Mint",
+        "subcategory": "Hair Care",
+        "price": 42.0,
+        "average_rating": 4.6,
+        "rating_number": 57479,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B005G9EA9M",
+        "title": "NYX PROFESSIONAL MAKEUP Mechanical Eyeliner Pencil, Bronze",
+        "subcategory": "Makeup",
+        "price": 4.99,
+        "average_rating": 4.4,
+        "rating_number": 6108,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B00JGQ9SPM",
+        "title": "Neutrogena Body Oil Light Sesame Formula, Dry Skin Moisturizer & Hydrating Body ",
+        "subcategory": "Skin Care",
+        "price": 20.69,
+        "average_rating": 4.7,
+        "rating_number": 29678,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B0C2R5WNBB",
+        "title": "Gillette ProGlide Razor Refills for Men, 8 Razor Blade Refills",
+        "subcategory": "Shave & Hair Removal",
+        "price": 27.39,
+        "average_rating": 4.7,
+        "rating_number": 14079,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B0075P0WW4",
+        "title": "Wahl Professional 5 Star Series Shaver Shaper Replacement Super Close Gold Foil ",
+        "subcategory": "Shave & Hair Removal",
+        "price": 20.45,
+        "average_rating": 4.6,
+        "rating_number": 7513,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B004B8F8MM",
+        "title": "Gillette Fusion5 Power Mens Razor Blade Refills, 8 Count, Lubrastrip for a More ",
+        "subcategory": "Shave & Hair Removal",
+        "price": 29.96,
+        "average_rating": 4.7,
+        "rating_number": 50659,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B09R4TSZ4P",
+        "title": "COMZIO Hair Clippers for Men, Cordless Barber Clippers Professional Hair Cutting",
+        "subcategory": "Hair Care",
+        "price": 38.99,
+        "average_rating": 4.7,
+        "rating_number": 5493,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B07Z5QSYDD",
+        "title": "REVLON One-Step Volumizer Original 1.0 Hair Dryer and Hot Air Brush, Teal",
+        "subcategory": "Hair Care",
+        "price": 39.0,
+        "average_rating": 4.6,
+        "rating_number": 22786,
+        "success": 1,
+        "score_rf_dash": 100.0
+      },
+      {
+        "parent_asin": "B00011K2BA",
+        "title": "Wahl Professional - Classic White Peanut - Professional Beard Trimmer and Hair C",
+        "subcategory": "Hair Care",
+        "price": 52.0,
+        "average_rating": 4.6,
+        "rating_number": 8287,
+        "success": 1,
+        "score_rf_dash": 100.0
+      }
+    ]
+  },
+  "per_subcategory_max_oof": {
+    "Foot, Hand & Nail Care": {
+      "catboost_max": 71.0,
+      "rf_max": 78.8,
+      "catboost_best": "Tree Hut Nourishing Hand Cream Tropical Mango, 3oz, Ultra Hydrating Hand Cream f",
+      "rf_best": "Seche Vite Dry Fast Top Nail Coat, Clear - .5 oz. oz"
+    },
+    "Fragrance": {
+      "catboost_max": 64.8,
+      "rf_max": 83.2,
+      "catboost_best": "Paris Hilton Man By Paris Hilton For Men. Eau De Toilette Spray 3.4 Fl Oz",
+      "rf_best": "Calvin Klein euphoria for Men Eau de Toilette"
+    },
+    "Hair Care": {
+      "catboost_max": 100.0,
+      "rf_max": 100.0,
+      "catboost_best": "Johnson's Baby Curl-Defining, Frizz Control, Tear-Free Kids' Shampoo with Shea B",
+      "rf_best": "OGX Nourishing + Coconut Milk Moisturizing Conditioner for Strong & Healthy Hair"
+    },
+    "Makeup": {
+      "catboost_max": 100.0,
+      "rf_max": 100.0,
+      "catboost_best": "NYX PROFESSIONAL MAKEUP Pore Filler Blurring Primer, Vegan Face Primer",
+      "rf_best": "Maybelline New York SuperStay Matte Ink Liquid Lipstick, Coffee Edition, Mocha I"
+    },
+    "Personal Care": {
+      "catboost_max": 72.5,
+      "rf_max": 86.4,
+      "catboost_best": "Dove Men+Care Antiperspirant Deodorant Stick Clean Comfort Twin Pack 72-Hour Swe",
+      "rf_best": "Shower Body Brush with Bristles and Loofah,Back Scrubber Bath Mesh Sponge with C"
+    },
+    "Shave & Hair Removal": {
+      "catboost_max": 91.7,
+      "rf_max": 100.0,
+      "catboost_best": "SheaMoisture Beard Wash for a Full Beard Maracuja Oil & Shea Butter to Deep Clea",
+      "rf_best": "Gillette Fusion5 Razors for Men, 1 Razor, 4 Blade Refills, Lubrastrip for a More"
+    },
+    "Skin Care": {
+      "catboost_max": 100.0,
+      "rf_max": 100.0,
+      "catboost_best": "NIVEA Nourishing In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+      "rf_best": "NIVEA Nourishing In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle"
+    },
+    "Tools & Accessories": {
+      "catboost_max": 72.2,
+      "rf_max": 88.9,
+      "catboost_best": "wet n wild Powder Brush, Makeup Brush for Mineral Foundation, Blush, and Bronzer",
+      "rf_best": "STORi Audrey Clear Vanity Makeup Organizer | 15-Compartment Holder for Brushes, "
+    }
+  },
+  "absolute_best_oof": {
+    "catboost": {
+      "score": 100.0,
+      "title": "Johnson's Baby Curl-Defining, Frizz Control, Tear-Free Kids' Shampoo with Shea Butter, Paraben-, Sul",
+      "parent_asin": "B07NNNVMVV",
+      "subcategory": "Hair Care",
+      "success_label": 1
+    },
+    "random_forest": {
+      "score": 100.0,
+      "title": "NIVEA Nourishing In Shower Lotion, Body Lotion for Dry Skin, 13.5 Fl Oz Bottle",
+      "parent_asin": "B09F44XFG5",
+      "subcategory": "Skin Care",
+      "success_label": 1
+    }
+  }
+}
