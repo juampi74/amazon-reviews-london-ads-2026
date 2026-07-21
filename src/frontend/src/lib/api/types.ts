@@ -35,6 +35,23 @@ export interface ComparableProduct {
   similarity?: number;
 }
 
+export interface ReviewTopic {
+  name: string;
+  share: number;
+}
+
+export interface ReviewTopicsInsight {
+  sentiment: { positive: number; neutral: number; negative: number };
+  topics: ReviewTopic[];
+  positive_keywords: string[];
+  negative_keywords: string[];
+  rating_distribution?: Record<string, number>;
+  verified_purchase_pct?: number;
+  sample_size: number;
+  dataset_version?: string;
+  source_type?: SourceType;
+}
+
 export interface AnalysisResponse {
   analysis_id?: number;
   request_id?: string;
@@ -56,6 +73,7 @@ export interface AnalysisResponse {
   price_range: [number | null, number | null];
   price_curve: PricePoint[];
   comparables: ComparableProduct[];
+  topics?: ReviewTopicsInsight | null;
   model_version: string;
   dataset_version: string;
   limitations: string[];
