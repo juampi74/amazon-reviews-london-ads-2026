@@ -1,10 +1,17 @@
+import sys
+from pathlib import Path
 from uuid import uuid4
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-import inference
+CURRENT_DIR = Path(__file__).resolve().parent
+API_DIR = CURRENT_DIR.parent
+if str(API_DIR) not in sys.path:
+    sys.path.append(str(API_DIR))
+
+import inference as I
 from app.core.config import get_settings
 from app.core.errors import RepositoryError
 from app.routers import analyses, store, system, datasets
@@ -13,8 +20,8 @@ from app.routers import analyses, store, system, datasets
 settings = get_settings()
 app = FastAPI(
     title="Launchly API",
-    version=inference.MODEL_VERSION,
-    description="Authenticated decision-support API for Launchly.",
+    version=I.MODEL_VERSION,
+    description="Authenticated decision-support API for Priori.",
 )
 app.add_middleware(
     CORSMiddleware,
