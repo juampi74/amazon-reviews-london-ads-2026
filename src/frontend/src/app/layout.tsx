@@ -19,8 +19,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: { default: "Priori", template: "%s · Priori" },
   description: "Know before you launch — evidence-backed beauty product launch decisions.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className={`${poppins.variable} ${inter.variable}`}><body>{children}</body></html>;
+  return (
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+      <body>{children}</body>
+    </html>
+  );
 }
