@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 import inference
 from app.core.config import get_settings
 from app.core.errors import RepositoryError
-from app.routers import analyses, store, system
+from app.routers import analyses, store, system, datasets
 
 
 settings = get_settings()
@@ -42,3 +42,4 @@ async def repository_error_handler(_: Request, exc: RepositoryError) -> JSONResp
 app.include_router(system.router)
 app.include_router(analyses.router)
 app.include_router(store.router)
+app.include_router(datasets.router)

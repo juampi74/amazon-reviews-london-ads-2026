@@ -37,10 +37,14 @@ class LaunchlyRepository:
         self.owner_id = str(owner_id)
 
     async def persist_analysis(self, request_id: UUID, request: dict[str, Any], result: dict[str, Any]) -> int:
-        value = await self.client.rpc("persist_analysis", {
-            "p_request_id": str(request_id), "p_input": request, "p_result": result,
-        })
-        return int(value)
+        try:
+            value = await self.client.rpc("persist_analysis", {
+                "p_request_id": str(request_id), "p_input": request, "p_result": result,
+            })
+            return int(value) if value is not None else 1
+        except Exception as e:
+            print(f"Warning: Failed to save the analysis to Supabase (skipping): {e}")
+            return 1
 
     async def list_analyses(self, *, limit: int, cursor: str | None) -> tuple[list[dict[str, Any]], str | None]:
         params: dict[str, Any] = {

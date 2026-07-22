@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { PricePoint } from "@/lib/api/types";
-import { demoTrend } from "@/lib/data/catalog";
 
 const tooltipStyle = { borderRadius: 14, border: "1px solid #efe5f5", fontFamily: "var(--font-body)", fontWeight: 800 };
 const money = (value: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
@@ -50,8 +49,65 @@ export function PriceSuccessSimulator({ data, currentPrice, saturation }: { data
   </section>;
 }
 
-export function ForecastChart() {
-  return <div className="chart-wrap" aria-label="Simulated demand history and three month forecast"><ResponsiveContainer width="100%" height={220}><LineChart data={demoTrend} margin={{ top: 8, right: 12, left: -28, bottom: 0 }}><CartesianGrid stroke="#f0e4f5" strokeDasharray="4 4" vertical={false}/><XAxis dataKey="month" tick={{ fill: "#8c839d", fontSize: 11 }}/><YAxis domain={[0, 100]} tick={{ fill: "#8c839d", fontSize: 11 }}/><Tooltip contentStyle={tooltipStyle}/><Legend/><Line type="monotone" dataKey="history" name="Interest" stroke="#8c6bff" strokeWidth={3} dot={false}/><Line type="monotone" dataKey="forecast" name="Forecast" stroke="#0f9e74" strokeWidth={3} strokeDasharray="6 5" dot={false} connectNulls/></LineChart></ResponsiveContainer></div>;
+interface ForecastChartProps {
+  growth?: number;
+  categoryName?: string;
+}
+
+export function ForecastChart({ growth, categoryName }: ForecastChartProps) {
+  const chartData = useMemo(() => {
+    const baseGrowth = growth ?? 25;
+    
+    let hash = 0;
+    if (categoryName) {
+      for (let i = 0; i < categoryName.length; i++) {
+        hash = (hash * 31 + categoryName.charCodeAt(i)) % 1000;
+      }
+    }
+
+    const months = ["Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"];
+
+    return months.map((month, index) => {
+      const isHistory = ["Aug", "Sep", "Oct", "Nov", "Dec", "Jan"].includes(month);
+      const isForecast = ["Jan", "Feb", "Mar", "Apr"].includes(month);
+
+      const categoryWave = Math.sin((index + 1) * (1 + (hash % 3))) * 12 + (((hash + index) % 4) - 1.5) * 3;
+      const historyVal = Math.round(Math.min(90, Math.max(15, (45 + categoryWave))));
+
+      let forecastVal = null;
+      if (isForecast) {
+        if (month === "Jan") {
+          forecastVal = historyVal;
+        } else {
+          const step = index - 5; 
+          const growthBoost = (baseGrowth / 15) * (step * 8);
+          forecastVal = Math.round(Math.min(98, Math.max(historyVal, historyVal + growthBoost + (Math.sin(hash + index) * 4))));
+        }
+      }
+
+      return {
+        month,
+        history: isHistory ? historyVal : null,
+        forecast: forecastVal,
+      };
+    });
+  }, [growth, categoryName]);
+
+  return (
+    <div className="chart-wrap" aria-label="Simulated demand history and three month forecast">
+      <ResponsiveContainer width="100%" height={220}>
+        <LineChart data={chartData} margin={{ top: 8, right: 12, left: -28, bottom: 0 }}>
+          <CartesianGrid stroke="#f0e4f5" strokeDasharray="4 4" vertical={false}/>
+          <XAxis dataKey="month" tick={{ fill: "#8c839d", fontSize: 11 }}/>
+          <YAxis domain={[0, 100]} tick={{ fill: "#8c839d", fontSize: 11 }}/>
+          <Tooltip contentStyle={tooltipStyle}/>
+          <Legend/>
+          <Line type="monotone" dataKey="history" name="Interest" stroke="#8c6bff" strokeWidth={3} dot={false} connectNulls={false}/>
+          <Line type="monotone" dataKey="forecast" name="Forecast" stroke="#0f9e74" strokeWidth={3} strokeDasharray="6 5" dot={false} connectNulls={true}/>
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }
 
 const audience = [{ age: "18–24", share: 17 }, { age: "25–34", share: 32 }, { age: "35–44", share: 27 }, { age: "45–54", share: 15 }, { age: "55+", share: 9 }];

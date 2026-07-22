@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from functools import lru_cache
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -12,6 +15,11 @@ class Settings:
     supabase_publishable_key: str
     cors_origins: tuple[str, ...]
     request_timeout_seconds: float
+    db_user: str
+    db_password: str
+    db_host: str
+    db_port: str
+    db_name: str
 
     @property
     def auth_issuer(self) -> str:
@@ -39,4 +47,9 @@ def get_settings() -> Settings:
         supabase_publishable_key=os.getenv("SUPABASE_PUBLISHABLE_KEY", "").strip(),
         cors_origins=tuple(item.strip() for item in origins.split(",") if item.strip()),
         request_timeout_seconds=float(os.getenv("SUPABASE_TIMEOUT_SECONDS", "10")),
+        db_user=os.getenv("DB_USER", "mysql"),
+        db_password=os.getenv("DB_PASSWORD", ""),
+        db_host=os.getenv("DB_HOST", "72.60.4.234"),
+        db_port=os.getenv("DB_PORT", "3306"),
+        db_name=os.getenv("DB_NAME", "adsb_beauty_analytics"),
     )

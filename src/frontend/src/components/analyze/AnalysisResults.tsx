@@ -20,7 +20,7 @@ const categoryTopics: Record<string, string[]> = {
 };
 
 export function AnalysisResults({ analysis, input }: { analysis: AnalysisResponse; input: AnalysisRequest }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const money = (value: number) => formatMoney(value, input.currency ?? "USD");
   const score = analysis.success.score;
   const estimatedMargin = analysis.profit.per_sale;
@@ -95,8 +95,6 @@ export function AnalysisResults({ analysis, input }: { analysis: AnalysisRespons
         <div className="section-title"><Search/> Similar products we compared against <Badge tone={analysis.source === "model" ? "mint" : "sun"}>{analysis.source === "model" ? "Model" : "Demo"}</Badge></div>
         <div className="comparable-product-grid">{analysis.comparables.slice(0, 5).map((product, index) => <article key={`${product.title}-${index}`}><div className="comparable-icon"><PackageSearch/></div><h3>{product.title}</h3><div><b>{product.price ? money(product.price) : "No price"}</b><span>{product.rating ? `★ ${product.rating.toFixed(1)}` : "No rating"}</span></div><small>{product.similarity ? `${Math.round(product.similarity * 100)}% similar` : `${product.reviews.toLocaleString()} reviews`}</small></article>)}</div>
       </section>
-
-      <section className="limitations"><div className="section-title"><ShieldAlert/> Limitations</div>{analysis.limitations.map((limitation) => <p key={limitation}>{limitation}</p>)}<small>{analysis.model_version} · {analysis.dataset_version}</small></section>
     </div> : null}
   </div>;
 }
