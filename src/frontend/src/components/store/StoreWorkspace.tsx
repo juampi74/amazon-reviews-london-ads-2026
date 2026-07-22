@@ -20,7 +20,7 @@ export function StoreWorkspace() {
   const handleBuildForMe = async () => {
     setIsBuilding(true);
     try {
-      const response = await fetch("/api/products?limit=50");
+      const response = await fetch("/api/datasets/products?limit=50");
       if (!response.ok) throw new Error("Failed to load products from the database");
       
       const data = await response.json();

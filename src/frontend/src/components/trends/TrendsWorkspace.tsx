@@ -21,7 +21,7 @@ export function TrendsWorkspace() {
   useEffect(() => {
     async function fetchTrendsData() {
       try {
-        const response = await fetch("/api/products?limit=100&skip=0");
+        const response = await fetch("/api/datasets/products?limit=100&skip=0");
         if (!response.ok) throw new Error("Failed to load data");
         
         const data = await response.json();

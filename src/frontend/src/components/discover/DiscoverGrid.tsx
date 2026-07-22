@@ -28,7 +28,7 @@ export function DiscoverGrid() {
       setIsLoading(true);
       try {
         const skip = page * limit;
-        const response = await fetch(`/api/products?limit=${limit}&skip=${skip}`);
+        const response = await fetch(`/api/datasets/products?limit=${limit}&skip=${skip}`);
         if (!response.ok) throw new Error("Failed to load products");
         
         const data = await response.json();
